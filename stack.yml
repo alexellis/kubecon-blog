@@ -1,0 +1,20 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  add-post:
+    lang: golang-middleware
+    handler: ./add-post
+    image: alexellis2/add-post:latest
+    environment:
+      GITHUB_REPO: https://github.com/alexellis/kubecon-blog
+    build_args:
+      GO111MODULE: on
+    secrets:
+      - github-token
+  blog:
+    lang: hugo
+    handler: ./blog
+    image: alexellis2/blog:latest
+

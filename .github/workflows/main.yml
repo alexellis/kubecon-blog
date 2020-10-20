@@ -1,0 +1,60 @@
+name: CI/CD
+
+on:
+  push:
+    branches: 
+      - master
+      - main
+jobs:
+  func-build:
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Define ENV VARS
+        id: define_env
+        run:  echo "::set-output name=github-sha-short::$(echo $GITHUB_SHA | cut -c 1-7)"
+      -
+        name: Pull template
+        uses: docker://openfaas/faas-cli:latest-root
+        with:
+          args: template pull https://github.com/utsavanand2/openfaas-hugo-template
+      - 
+        name: Add theme submodule
+        run: git submodule add -f https://github.com/budparr/gohugo-theme-ananke.git blog/themes/ananke
+      - 
+        name: Run shrinkwrap build
+        uses: docker://openfaas/faas-cli:latest-root
+        with:
+          args: build -f blog.yml --shrinkwrap
+      -
+        name: Login to OpenFaaS Gateway
+        uses: docker://openfaas/faas-cli:latest-root
+        with:
+          args: login -p ${{ secrets.OPENFAAS_GATEWAY_PASSWD }} \
+                      -g ${{ secrets.OPENFAAS_GATEWAY }}
+      -
+        name: Login to DockerHub
+        if: success()
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - 
+        name: Build and Push the OpenFaaS function
+        uses: docker/build-push-action@v2
+        with:
+          context: ./build/blog/
+          file: ./build/blog/Dockerfile
+          push: true
+          tags: alexellis2/blog:latest-${{ steps.define_env.outputs.github-sha-short }}
+      - 
+        name: Deploy the function
+        uses: docker://openfaas/faas-cli:latest-root
+        with:
+          args: deploy -f blog.yml --tag sha --gateway ${{ secrets.OPENFAAS_GATEWAY }}
