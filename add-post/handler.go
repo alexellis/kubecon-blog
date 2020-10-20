@@ -106,7 +106,7 @@ func clonePush(title string, body string) error {
 	postContent := fmt.Sprintf(`---
 title: "%s"
 date: 2020-10-20T20:21:04+01:00
-draft: true
+draft: false
 ---
 %s`, title, body)
 
