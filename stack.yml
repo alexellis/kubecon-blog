@@ -13,6 +13,7 @@ functions:
       GO111MODULE: on
     secrets:
       - github-token
+      - admin-token
   blog:
     lang: hugo
     handler: ./blog

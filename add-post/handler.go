@@ -21,6 +21,20 @@ import (
 )
 
 func Handle(w http.ResponseWriter, r *http.Request) {
+
+	passwordBytes, err := ioutil.ReadFile("/var/openfaas/secrets/admin-token")
+	if err != nil {
+		http.Error(w, "invalid password file", http.StatusUnauthorized)
+		return
+	}
+
+	user, password, ok := r.BasicAuth()
+	w.Header().Set("WWW-Authenticate", `Basic realm="Restricted"`)
+	if !ok || !(strings.TrimSpace(string(passwordBytes)) == password && user == "admin") {
+		http.Error(w, "invalid credentials", http.StatusUnauthorized)
+		return
+	}
+
 	var input []byte
 
 	if r.Body != nil {
