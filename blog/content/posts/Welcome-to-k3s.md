@@ -1,6 +1,6 @@
 ---
 title: "Welcome to k3s"
-date: 2020-10-20T20:21:04+01:00
+date: 2020-10-20T20:21:40+01:00
 draft: false
 ---
 ## Intro

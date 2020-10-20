@@ -114,15 +114,17 @@ func clonePush(title string, body string) error {
 		return err
 	}
 
+	publishedDate := time.Now().Format(time.RFC3339)
+
 	titleSafe := strings.ReplaceAll(title, " ''@#$<>", "-")
 	titleSafe = strings.ReplaceAll(title, " ", "-")
 	filename := filepath.Join(tmpPath, "blog/content/posts/"+titleSafe+".md")
 	postContent := fmt.Sprintf(`---
 title: "%s"
-date: 2020-10-20T20:21:04+01:00
+date: %s
 draft: false
 ---
-%s`, title, body)
+%s`, title, publishedDate, body)
 
 	err = ioutil.WriteFile(filename, []byte(postContent), os.ModePerm)
 	if err != nil {
