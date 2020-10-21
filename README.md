@@ -1,6 +1,29 @@
 # kubecon-blog
+
 My blog about my KubeCon talk, also my demo.
 
+## Try it out
+
+```bash
+export ADMIN_PASSWORD="" # To access the add-post function
+export GITHUB_TOKEN="" # Personal access token
+
+faas-cli secret create admin-token --from-literal $ADMIN_PASSWORD
+faas-cli secret create github-token --from-literal $GITHUB_TOKEN
+
+faas-cli deploy
+```
+
+Then go ahead and configure your GitHub Actions as per main.yml, creating secrets for:
+
+* OPENFAAS_GATEWAY
+* OPENFAAS_GATEWAY_PASSWD
+* DOCKER_USERNAME
+* DOCKER_PASSWORD
+
+Whenever you add a post by add-posts, it will trigger a git commit, which triggers the GitHub workflow, to publish a new version of the blog function.
+
+## Additional
 
 You would need to change the file `kubecon-multi-arch-blog.yml` to point to the gateway of your OpenFaaS deployment.
 

@@ -6,7 +6,7 @@ functions:
   add-post:
     lang: golang-middleware
     handler: ./add-post
-    image: alexellis2/add-post:latest
+    image: alexellis2/add-post:0.1.0
     environment:
       GITHUB_REPO: https://github.com/alexellis/kubecon-blog
     build_args:
@@ -18,4 +18,3 @@ functions:
     lang: hugo
     handler: ./blog
     image: alexellis2/blog:latest
-
