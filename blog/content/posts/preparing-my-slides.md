@@ -4,4 +4,4 @@ date: 2020-10-20T20:21:04+01:00
 draft: false
 ---
 
-Getting close now.
+I'm preparing my slides and my demo rig, ready for a live demo!
