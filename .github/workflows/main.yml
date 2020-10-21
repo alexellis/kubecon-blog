@@ -52,6 +52,8 @@ jobs:
           context: ./build/blog/
           file: ./build/blog/Dockerfile
           push: true
+          platforms: linux/arm/v7
+          # platforms: linux/amd64,linux/arm/v7
           tags: alexellis2/blog:latest-${{ steps.define_env.outputs.github-sha-short }}
       - 
         name: Deploy the function
