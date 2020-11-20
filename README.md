@@ -23,6 +23,11 @@ Then go ahead and configure your GitHub Actions as per main.yml, creating secret
 
 Whenever you add a post by add-posts, it will trigger a git commit, which triggers the GitHub workflow, to publish a new version of the blog function.
 
+* [add-post](add-post) - checkout the handler.go and see how it does a commit from the markdown you enter.
+* [blog](blog) - the content for the Hugo blog
+* [openfaas-hugo-template](https://github.com/utsavanand2/openfaas-hugo-template) - the template for use with faas-cli
+
+
 ## Additional setup instructions from scratch
 
 You would need to change the file `kubecon-multi-arch-blog.yml` to point to the gateway of your OpenFaaS deployment.
