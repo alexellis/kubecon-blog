@@ -23,7 +23,7 @@ Then go ahead and configure your GitHub Actions as per main.yml, creating secret
 
 Whenever you add a post by add-posts, it will trigger a git commit, which triggers the GitHub workflow, to publish a new version of the blog function.
 
-## Additional
+## Additional setup instructions from scratch
 
 You would need to change the file `kubecon-multi-arch-blog.yml` to point to the gateway of your OpenFaaS deployment.
 
